@@ -10,6 +10,9 @@ abstract class AbstractConverter(
     val displayName: String // отображаемое на интерфейсе наименование
 ) {
 
+    /**
+     * Конвертировать величину, умножив на коэффициент конверсии
+     */
     fun convert(argument: Double) : Double {
         return argument * coefficient
     }

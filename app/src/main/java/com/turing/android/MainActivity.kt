@@ -43,47 +43,32 @@ class MainActivity : AppCompatActivity() {
 
         conversionTypeView.text = activeConverter.displayName
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
             activeConverter = getActiveConverter(checkedId)
             conversionTypeView.text = activeConverter.displayName
+            resultTextView.text = ""
         }
 
         convertButton.setOnClickListener {
             val input = inputText.text.toString()
 
-            if (input.isEmpty()) {
-                Toast
-                    .makeText(this, "Че ты конвертировать собрался еблоид", Toast.LENGTH_LONG)
-                    .show()
-                return@setOnClickListener
-            }
+            when {
+                input.isEmpty() -> {
+                    showToast(getString(R.string.conversion_empty_input))
+                    return@setOnClickListener
+                }
 
-            if (!isNumber(input)) {
-                Toast
-                    .makeText(this, "А буковки тебе как считать прикажешь урод?", Toast.LENGTH_LONG)
-                    .show()
-                return@setOnClickListener
-            }
+                input.toDouble() <= 0.0 -> {
+                    showToast(getString(R.string.conversion_below_zero_input))
+                    return@setOnClickListener
+                }
 
-            if (input.toDouble() <= 0.0) {
-                Toast
-                    .makeText(this, "А ты сам выблядок как думаешь", Toast.LENGTH_LONG)
-                    .show()
-                return@setOnClickListener
+                else -> {
+                    resultTextView.text = activeConverter.convert(input.toDouble()).toString()
+                    showToast(getString(R.string.conversion_success))
+                }
             }
-
-            resultTextView.text = activeConverter.convert(input.toDouble()).toString()
-            Toast
-                .makeText(this, "Омерика сасатб!!!", Toast.LENGTH_LONG)
-                .show()
         }
-    }
-
-    /**
-     * Проверяет, можно ли строку конвертировать в Double
-     */
-    private fun isNumber(toCheck: String): Boolean {
-        return toCheck.toDoubleOrNull() != null
     }
 
     /**
@@ -91,5 +76,14 @@ class MainActivity : AppCompatActivity() {
      */
     private fun getActiveConverter(activeRadioButtonId: Int): AbstractConverter {
         return convertersMap.getOrDefault(activeRadioButtonId, WeightConverter())
+    }
+
+    /**
+     * Показать тоаст с кастомным сообщением
+     */
+    private fun showToast(toastMessage: String) {
+        Toast
+            .makeText(this, toastMessage, Toast.LENGTH_LONG)
+            .show()
     }
 }
