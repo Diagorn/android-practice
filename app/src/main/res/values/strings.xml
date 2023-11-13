@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Конвертер величин</string>
+
+    <string name="weight_radio_button_name">Вес</string>
+    <string name="length_radio_button_name">Длина</string>
+    <string name="currency_radio_button_name">Валюта</string>
+    <string name="convert_button_name">Конвертировать</string>
 </resources>
