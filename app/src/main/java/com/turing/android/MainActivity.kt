@@ -86,6 +86,9 @@ class MainActivity : AppCompatActivity() {
         return toCheck.toDoubleOrNull() != null
     }
 
+    /**
+     * Достает текущий активный конвертер под выбор пользователя
+     */
     private fun getActiveConverter(activeRadioButtonId: Int): AbstractConverter {
         return convertersMap.getOrDefault(activeRadioButtonId, WeightConverter())
     }
